@@ -24,6 +24,14 @@ namespace BioBokaren2
         static int selectedTickets = 0;
         static string selectedTime = "";
         static double totalPrice = 0.0;
+        static double CalculatePrice(int tickets, double basePrice)
+        {
+            return tickets * basePrice;
+        }
+        static double CalculatePrice(int tickets, double basePrice, double discountPercent)
+        {
+            return tickets * basePrice * (1 - discountPercent);
+        }
 
         // Helper methods
         static int ReadInt(string prompt, int min, int max)
@@ -48,7 +56,7 @@ namespace BioBokaren2
         }
         static void ShowMovies()
         {
-            Console.WriteLine("\nTillgängliga filmer:");
+            Console.WriteLine("\nTillgängliga filmer:\n");
             for (int i = 0; i < movies.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {movies[i]} - {movieTimes[i]}");
@@ -59,33 +67,33 @@ namespace BioBokaren2
             ShowMovies();
             selectedMovie = ReadInt("\nVälj en film (1-4): ", 1, movies.Length) - 1;
             selectedTime = movieTimes[selectedMovie];
-            Console.WriteLine($"Du valde: {movies[selectedMovie]} vid {movieTimes[selectedMovie]}");
+            Console.WriteLine($"\nDu valde: {movies[selectedMovie]} vid {movieTimes[selectedMovie]}");
 
-            selectedTickets = ReadInt("Ange antal biljetter (1-10): ", 1, int.MaxValue);
+            selectedTickets = ReadInt("\nAnge antal biljetter (1-10): ", 1, int.MaxValue);
         }
         static void StudentDiscount()
         {
             if (isStudent)
             {
-                Console.WriteLine("Studentrabatt är aktiverad.");
-                Console.WriteLine("Vill du avaktivera den? (y/n): ");
+                Console.WriteLine("\nStudentrabatt är aktiverad.");
+                Console.WriteLine("\nVill du avaktivera den? (y/n): ");
                 string input = Console.ReadLine();
                 if (input?.Trim().ToUpper() == "Y")
                 {
                     isStudent = false;
-                    Console.WriteLine("Studentrabatt borttagen.");
+                    Console.WriteLine("\nStudentrabatt borttagen.");
                 }
                 else
                 {
-                    Console.WriteLine("Studentrabatt kvarstår.");
+                    Console.WriteLine("\nStudentrabatt kvarstår.");
                 }
             }
             else
             {
-                Console.WriteLine("Ange din rabattkod: ");
+                Console.WriteLine("\nAnge din rabattkod: ");
                 if (Console.ReadLine() == student_code)
                 {
-                    Console.WriteLine("Studentrabatt aktiverad!");
+                    Console.WriteLine("\nStudentrabatt aktiverad!");
                     isStudent = true;
                 }
                 else
@@ -97,12 +105,14 @@ namespace BioBokaren2
         }
         static void CalculateTotalPrice()
         {
-            double basePrice = selectedTickets * moviePrice;
             if (isStudent)
             {
-                basePrice *= (1 - student_discount);
+                totalPrice = CalculatePrice(selectedTickets, moviePrice, student_discount) * (1 + tax_rate);
             }
-            totalPrice = basePrice * (1 + tax_rate);
+            else
+            {
+                totalPrice = CalculatePrice(selectedTickets, moviePrice) * (1 + tax_rate);
+            }
         }
         static void PrintReceipt()
         {
