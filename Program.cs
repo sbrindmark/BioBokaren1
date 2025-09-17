@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32.SafeHandles;
+using System.ComponentModel.Design;
 
 namespace BioBokaren2
 {
@@ -61,16 +62,34 @@ namespace BioBokaren2
         }
         static void StudentDiscount()
         {
-            Console.WriteLine("Ange din rabattkod: ");
-            if (Console.ReadLine() == student_code)
+            if (isStudent)
             {
-                Console.WriteLine("Studentrabatt aktiverad!");
-                isStudent = true;
+                Console.WriteLine("Studentrabatt är aktiverad.");
+                Console.WriteLine("Vill du avaktivera den? (y/n): ");
+                string input = Console.ReadLine();
+                if (input?.Trim().ToUpper() == "Y")
+                {
+                    isStudent = false;
+                    Console.WriteLine("Studentrabatt borttagen.");
+                }
+                else
+                {
+                    Console.WriteLine("Studentrabatt kvarstår.");
+                }
             }
             else
             {
-                Console.WriteLine("Felaktig kod, ingen rabatt aktiverad.");
-                isStudent = false;
+                Console.WriteLine("Ange din rabattkod: ");
+                if (Console.ReadLine() == student_code)
+                {
+                    Console.WriteLine("Studentrabatt aktiverad!");
+                    isStudent = true;
+                }
+                else
+                {
+                    Console.WriteLine("Felaktig kod, ingen rabatt aktiverad.");
+                    isStudent = false;
+                }
             }
         }
         static void CalculateTotalPrice()
