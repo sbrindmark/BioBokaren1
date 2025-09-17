@@ -24,14 +24,7 @@ namespace BioBokaren2
         static int selectedTickets = 0;
         static string selectedTime = "";
         static double totalPrice = 0.0;
-        static double CalculatePrice(int tickets, double basePrice)
-        {
-            return tickets * basePrice;
-        }
-        static double CalculatePrice(int tickets, double basePrice, double discountPercent)
-        {
-            return tickets * basePrice * (1 - discountPercent);
-        }
+
 
         // Helper methods
         static int ReadInt(string prompt, int min, int max)
@@ -124,6 +117,14 @@ namespace BioBokaren2
             Console.WriteLine($"Studentrabatt aktiverad: {(isStudent ? "Ja" : "Nej")}");
             Console.WriteLine($"Totalpris: {totalPrice:F2} {currency}");
             Console.WriteLine("---------------\n");
+        }
+        static double CalculatePrice(int tickets, double basePrice)
+        {
+            return tickets * basePrice;
+        }
+        static double CalculatePrice(int tickets, double basePrice, double discountPercent)
+        {
+            return tickets * basePrice * (1 - discountPercent);
         }
 
 
