@@ -5,24 +5,27 @@ namespace BioBokaren2
 {
     internal class Program
     {
-
+       // Movie data
        static string[] movies = { "Draktränaren", "Lilo & Stitch", "Tuffa gänget 2", "Tron: Ares" };
        static string[] movieTimes = { "12:00", "12:15", "18:15", "20:15" };
 
-       static int moviePrice = 120;
+        // Pricing
+        static int moviePrice = 120;
 
-
+        // Constants
         const double tax_rate = 0.25;
         const double student_discount = 0.15;
         const string currency = "SEK";
         const string student_code = "STUDENT2025";
-        static bool isStudent = false;
 
+        // State variables
+        static bool isStudent = false;
         static int selectedMovie = 0;
         static int selectedTickets = 0;
         static string selectedTime = "";
         static double totalPrice = 0.0;
 
+        // Helper methods
         static int ReadInt(string prompt, int min, int max)
         {
             while (true)
@@ -114,7 +117,7 @@ namespace BioBokaren2
         }
 
 
-
+        // Main program loop
         static void Main(string[] args)
         {
             bool running = true;
